@@ -1,35 +1,36 @@
 #pragma once
 
-#include <iostream>
+#if WRITE_DETAILS
+    #include <iostream>
+#endif
 
 #include "Password.hpp"
-#include "Cursor.hpp"
+#include "Guesser.hpp"
 
 class Cracker
 {
 public:    
-    void Crack(const Password& password)
+    void Crack(const Password& password, Guesser* guesser)
     {
         int tries = 0;
-        Cursor cursor;
         while (true)
         {
-            cursor.WriteNext();
+            guesser->GuessNext();
 
             #if WRITE_DETAILS
-                std::cout << "Trying: " << cursor.GetMessage() << "\n";
+                std::cout << "Trying: " << guesser->GetMessage() << "\n";
             #endif
 
-            if (password.IsEqual(cursor.GetMessage()))
+            if (password.IsEqual(guesser->GetMessage()))
                 break;
-            
+
             tries++;
         }
 
         #if WRITE_DETAILS
             std::cout << "Password cracked succesfully!\n";
-            std::cout << "Password: " << cursor.GetMessage() << '\n';
-            std::cout << "Password length: " << cursor.GetMessage().length() << '\n';
+            std::cout << "Password: " << guesser->GetMessage() << '\n';
+            std::cout << "Password length: " << guesser->GetMessage().length() << '\n';
             std::cout << "Tries count for cracking password: " << tries << '\n';
         #endif
     }

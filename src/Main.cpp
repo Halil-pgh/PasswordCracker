@@ -4,10 +4,11 @@
 
 #include "Cracker.hpp"
 #include "Timer.hpp"
+#include "CursorGuesser.hpp"
 
 int main()
 {
-    char repait;
+    char repeat;
     do
     {
         std::cout << "What is your password: ";
@@ -16,11 +17,13 @@ int main()
         Password password(pass);
 
         Timer timer("Password cracking");
+        Guesser* guesser = new CursorGuesser();
         Cracker cracker;
-        cracker.Crack(password);
+        cracker.Crack(password, guesser);
+        delete guesser;
         timer.End();
 
         std::cout << "Do you want to crack another password [Y/n]: ";
-        std::cin >> repait;
-    } while (repait == 'y' || repait == 'Y');
+        std::cin >> repeat;
+    } while (repeat == 'y' || repeat == 'Y');
 }

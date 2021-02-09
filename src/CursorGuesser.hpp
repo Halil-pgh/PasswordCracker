@@ -1,16 +1,16 @@
 #pragma once
 
-#include <string>
+#include "Guesser.hpp"
 
-class Cursor
+class CursorGuesser : public Guesser
 {
 public:
-    Cursor() : m_Message()
+    CursorGuesser() : m_Message()
     {
         m_Message.push_back(m_StartingDecimal);
     }
 
-    void WriteNext()
+    void GuessNext() override
     {
         m_Decimal++;
         m_Message[m_Position] = m_Decimal;
@@ -24,6 +24,9 @@ public:
         ResetPosition();
     }
 
+    inline const std::string& GetMessage() const override { return m_Message; }
+
+private:
     void ResetPosition()
     {
         m_Position = m_Message.length() - 1;
@@ -50,7 +53,6 @@ public:
     }
 
     inline int GetPosition() const { return m_Position; }
-    inline const std::string& GetMessage() const { return m_Message; }
 
 private:
     std::string m_Message;
