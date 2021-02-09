@@ -1,5 +1,7 @@
 #include <iostream>
 
+#define WRITE_DETAILS 1
+
 #include "Cracker.hpp"
 #include "Timer.hpp"
 
@@ -12,7 +14,6 @@ int main()
 
     Timer timer("Password cracking");
     Cracker cracker;
-    cracker.WriteToConsole(false);
     cracker.Crack(password);
     timer.End();
 }
