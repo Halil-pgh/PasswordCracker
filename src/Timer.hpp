@@ -9,7 +9,7 @@ public:
     Timer(const std::string &name)
         : m_Name(name)
     {
-        m_Start = m_Timer.now();
+        m_Start = std::chrono::steady_clock::now();
     }
 
     ~Timer()
@@ -23,17 +23,17 @@ public:
         if (m_IsEnd)
             return;
         
-        m_End = m_Timer.now();
-        auto deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(m_End - m_Start);
-        std::cout << m_Name << " tooks: " << deltaTime.count() << "ms\n";
-        m_IsEnd = true;        
+        m_End = std::chrono::steady_clock::now();
+        m_Duration = m_End - m_Start;
+        float ms = m_Duration.count() * 1000.0f;
+        std::cout << m_Name << " tooks: " << ms << "ms\n";
+        m_IsEnd = true;
     }
 
 private:
     bool m_IsEnd = false;
     std::string m_Name;
 
-    std::chrono::high_resolution_clock m_Timer;
-    std::chrono::_V2::system_clock::time_point m_Start;
-    std::chrono::_V2::system_clock::time_point m_End;
+    std::chrono::time_point<std::chrono::steady_clock> m_Start, m_End;
+    std::chrono::duration<float> m_Duration;
 };
